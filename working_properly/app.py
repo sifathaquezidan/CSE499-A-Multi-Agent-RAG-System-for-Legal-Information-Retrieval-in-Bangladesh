@@ -41,7 +41,7 @@ CLARIFICATION_GRAPH_IMAGE_PATH = "clarification_agent_graph.png"
 EMBEDDING_BATCH_SIZE = 200
 MAX_DOCS_PER_QUERY = 5 
 MINIMUN_RETRIVAL_SCORE = 0.1
-MAX_QUERY_CLARIFICATION_TURNS = 10
+MAX_QUERY_CLARIFICATION_TURNS = 5
 
 # --- PDF Processing Functions ---
 # ... (Keep the existing extract_text_from_pdf and process_pdfs_in_directory functions) ...
@@ -784,6 +784,79 @@ def get_agentic_rag_app(_retriever, openai_api_key, tavily_api_key):
 # ==============================================================================
 
 st.set_page_config(page_title="Conversational Legal RAG Chatbot (Bangladesh)", layout="wide")
+
+# --- Guidelines Sidebar ---
+with st.sidebar:
+    with st.expander("📋 GUIDELINES FOR USING THE CHATBOT", expanded=False):
+        st.markdown("""
+        ### 📁 About the Data
+        
+        The chatbot has access to **22+ comprehensive legal documents** covering:
+        - **Constitutional Law**: Bangladesh Constitution
+        - **Criminal Law**: Penal Code, Criminal Procedure Code, Criminal Law Amendments
+        - **Civil Law**: Code of Civil Procedure, Citizenship Act
+        - **Land Law**: State Acquisition & Tenancy Act, Land Reforms Ordinance, Agricultural Land Laws
+        - **Commercial Law**: Negotiable Instruments Act (Cheque Dishonour cases)
+        - **Social Law**: Domestic Violence Laws, Right to Information Act
+        - **Administrative Law**: Laws Revision & Declaration Acts
+        
+        ---
+        
+        ### 🤖 How the Chatbot Works
+        
+        **Two-Stage Intelligence System:**
+        
+        1. **Clarification Agent** 📝
+           - Analyzes your query for clarity and completeness
+           - Asks follow-up questions if more details are needed
+           - Maximum 5 clarification rounds to avoid endless loops
+           - Synthesizes your final legal question
+        
+        2. **RAG (Retrieval-Augmented Generation) Agent** 🧠
+           - Searches local legal database using semantic similarity
+           - Grades retrieved documents for relevance
+           - Falls back to web search if local documents insufficient
+           - Combines multiple sources for comprehensive answers
+           - Cites sources (PDF files or web search results)
+        
+        ---
+        
+        ### 💬 Query Types Supported
+        
+        **✅ Excellent for:**
+        - Legal procedure questions (*"How to file a bail application?"*)
+        - Specific law interpretations (*"Section 138 cheque dishonour penalties"*)
+        - Rights and obligations (*"Property inheritance rights in Bangladesh"*)
+        - Court procedures (*"Steps for filing a civil suit"*)
+        - Constitutional matters (*"Fundamental rights under Bangladesh Constitution"*)
+        
+        **⚠️ Limited support for:**
+        - Very recent legal changes (post-2023)
+        - Highly specialized commercial law
+        - International law matters
+        - Personal legal advice
+        
+        ---
+        
+        ### 🎯 Best Practices
+        
+        **For Best Results:**
+        - **Be Specific**: Include relevant details (location, law type, circumstances)
+        - **Mention Context**: Personal, business, criminal, civil case?
+        - **Ask Follow-ups**: The chatbot learns from conversation
+        - **Verify Important Info**: Use responses as guidance, not definitive legal advice
+        
+        **Example Good Queries:**
+        - *"What documents are needed to file a domestic violence case in Dhaka Family Court?"*
+        - *"Bail procedure for non-bailable offenses under Section 497 CrPC"*
+        - *"Land registration process under State Acquisition and Tenancy Act"*
+        
+        **Limitations:**
+        - Responses are informational, not professional legal advice
+        - Always consult qualified lawyers for actual cases
+        - Database reflects laws as of 2023 and earlier
+        """)
+
 st.title("⚖️ Bangladeshi Legal Assistant (Conversational Clarification + RAG)")
 
 # --- API Key Input & Resource Initialization ---
