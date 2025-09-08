@@ -29,3 +29,4 @@ typing-extensions
 
 # Optional but Recommended for Document/Image Handling
 Pillow
+pysqlite3-binary
